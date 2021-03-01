@@ -42,7 +42,8 @@ function connectButtonHandler(event) {
             button.innerHTML = 'Leave call';
             button.disabled = false;
             shareScreen.disabled = false;
-        }).catch(() => {
+        }).catch((err) => {
+            console.log(err);
             alert('Connection failed. Is the backend running?');
             button.innerHTML = 'Join call';
             button.disabled = false;
