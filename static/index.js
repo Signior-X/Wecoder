@@ -66,7 +66,16 @@ const init = (username, room_id) => {
     })
 
 
+    socket.on("code run", (data) => {
+      // Run the code and make the changes
+      console.log("data of code run", data)
+      $('#submit-btn').html('Submit')
+      $('#submit-btn').prop('disabled', false);
 
+      document.getElementById('stdout').innerHTML = data.stdout
+      document.getElementById('stdin').innerHTML = data.stdin
+
+    })
 
   });
 
@@ -142,14 +151,15 @@ const init = (username, room_id) => {
   // Take the editor value on start and set it in the editor
   currentEditorValue.child("content").once("value", function (contentRef) {
 
+    document.getElementById('editor-spinner').style.display = "none";
+
     // Somebody changed the lang. Hey, we have to update it in our editor too!
     currentEditorValue.child("lang").on("value", function (r) {
       var value = r.val();
       // Set the language
-      var cLang = $selectLang.val();
-      if (cLang !== value) {
-        $selectLang.val(value).change();
-      }
+      console.log("lang value", value);
+      document.getElementById('language').value = value;
+      changeEditorLang(value);
     });
 
     // Initialize the ACE editor
@@ -236,7 +246,7 @@ const init = (username, room_id) => {
 
       // Here's where we set the initial content of the editor
       editorValues.child(editorId).set({
-        lang: "cpp",
+        lang: "10",
         queue: {},
         content: val
       });
@@ -257,8 +267,26 @@ const init = (username, room_id) => {
     editor.focus();
   });
 
+
+  changeEditorLang = (lang_enum) => {
+    if (lang_enum == 10 || lang_enum == 4) {
+      editor.session.setMode("ace/mode/c_cpp");
+    }
+    else if (lang_enum == 34 || lang_enum == 36) {
+      editor.session.setMode("ace/mode/python");
+    }
+    else if (lang_enum == 27) {
+      editor.session.setMode("ace/mode/java");
+    }
+  }
+
+
+
   // Code submit and language change
   $('#submit-btn').on('click', function () {
+
+    console.log("Response");
+
     $('#submit-btn').html('<i class="fa fa-spinner fa-spin"></i>');
     $('#submit-btn').prop('disabled', true);
     data = {
@@ -271,44 +299,12 @@ const init = (username, room_id) => {
   });
 
   $("#language").change(function () {
+    console.log("language changed!!");
     var lang_enum = $(this).val();
-    if (lang_enum == 10 || lang_enum == 4) {
-      editor.session.setMode("ace/mode/c_cpp");
-      var dummycpp =
-        `#include <bits/stdc++.h>
-using namespace std;
 
-int main(){
-    // Your code starts here
+    currentEditorValue.child("lang").set(lang_enum);
 
-    return 0;
-}`
-      var dummyc =
-        `#include <stdio.h>
-int main(void){
-    // Your code starts here
-
-    return 0;
-}`
-      if (lang_enum == 4)
-        editor.setValue(dummyc);
-      else
-        editor.setValue(dummycpp);
-    }
-    else if (lang_enum == 34 || lang_enum == 36) {
-      editor.session.setMode("ace/mode/python");
-      editor.setValue("#Your code here")
-    }
-    else if (lang_enum == 27) {
-      editor.session.setMode("ace/mode/java");
-      var dummyjava =
-        `public class Main {
-    public static void main(String[] args) {
-        System.out.println("hello, world");
-    }
-}`
-      editor.setValue(dummyjava);
-    }
+    changeEditorLang(lang_enum);
   });
 
 };
