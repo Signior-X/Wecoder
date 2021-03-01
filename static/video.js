@@ -18,12 +18,12 @@ let screenTrack;
 
 function addLocalVideo() {
     Twilio.Video.createLocalVideoTrack().then(track => {
-        let video = document.getElementById('local').firstChild;
+        let video = document.getElementById('localme');
         let trackElement = track.attach();
         trackElement.addEventListener('click', () => { zoomTrack(trackElement); });
         console.log(trackElement);
         // video.innerHTML += trackElement;
-        // video.appendChild(trackElement);
+        video.appendChild(trackElement);
     });
 };
 
