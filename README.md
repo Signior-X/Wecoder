@@ -33,8 +33,9 @@ FrontEnd : HTML + CSS + JS
 # How to run the project
 
 - Clone the project
-- Install the libraries using “pip install -r requirements.txt
-- Run python app.py
+- This Project Requires Python3 to run, so make sure to install it.
+- Install the libraries using `pip install -r requirements.txt`
+- Run the app using `python app.py`
 - The project runs on localhost:5000
 
 
