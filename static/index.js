@@ -256,7 +256,59 @@ const init = (username, room_id) => {
     editor.focus();
   });
 
+  // Code submit and language change
+  $('#submit-btn').on('click', function () {
+    $('#submit-btn').html('<i class="fa fa-spinner fa-spin"></i>');
+    $('#submit-btn').prop('disabled', true);
+    data = {
+      src: editor.getValue(),
+      lang: $('#language').val(),
+      stdin: $('#stdin').val()
+    };
+    socket.emit("submit code", data)
+    $('#submit-btn').prop('disabled', false);
+  });
 
+  $("#language").change(function () {
+    var lang_enum = $(this).val();
+    if (lang_enum == 10 || lang_enum == 4) {
+      editor.session.setMode("ace/mode/c_cpp");
+      var dummycpp =
+        `#include <bits/stdc++.h>
+using namespace std;
+
+int main(){
+    // Your code starts here
+
+    return 0;
+}`
+      var dummyc =
+        `#include <stdio.h>
+int main(void){
+    // Your code starts here
+
+    return 0;
+}`
+      if (lang_enum == 4)
+        editor.setValue(dummyc);
+      else
+        editor.setValue(dummycpp);
+    }
+    else if (lang_enum == 34 || lang_enum == 36) {
+      editor.session.setMode("ace/mode/python");
+      editor.setValue("#Your code here")
+    }
+    else if (lang_enum == 27) {
+      editor.session.setMode("ace/mode/java");
+      var dummyjava =
+        `public class Main {
+    public static void main(String[] args) {
+        System.out.println("hello, world");
+    }
+}`
+      editor.setValue(dummyjava);
+    }
+  });
 
 };
 

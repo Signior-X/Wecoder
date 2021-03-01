@@ -90,8 +90,6 @@
       </form>
     </div>
 
-
-
     <!-- Page Content  -->
     <div id="content" class="container-fluid">
 
@@ -126,34 +124,39 @@
         </div>
       </nav>
       <div class="row">
-        <div class="col-sm-9" style="border: 3px solid;">
+        <div class="col-sm-8" style="border: 3px solid;">
           <svg id="draw" style="width: 100%;">
           </svg>
         </div>
 
-        <div class="col-sm-3">
+        <div class="col-sm-4">
           <!-- Code content -->
           <div class="submit-container">
-            <div id="editor">#include &#60;bits/stdc++.h&#62;
-              using namespace std;
-
-              int main(){
-              // Your code starts here
-
-              return 0;
-              }
+            <div id="editor">
             </div>
           </div>
           <div class="submit">
             <div id="time-memo"></div>
             <select id="language">
-              <% for (var i=0; i<langlist.length; i++) { %>
-                <option value="<%= langlist[i].id %>">
-                  <%= langlist[i].name %>
-                </option>
-                <% } %>
+              <option value="10">C++ (g++ 7.2.0)</option>
+              <option value="4">C (gcc 7.2.0)</option>
+              <option value="27">Java (OpenJDK 8)</option>
+              <option value="34">Python (3.6.0)</option>
+              <option value="36">Python (2.7.9)</option>
             </select>
             <button type="button" id="submit-btn" class="btn btn-primary btn-md">Submit</button>
+          </div>
+          <div class="container">
+            <div class="ide-output row">
+              <div class="tarea col-md-6 col-xs-12">
+                <p>Input</p>
+                <textarea id="stdin" rows="8"></textarea>
+              </div>
+              <div class="tarea col-md-6 col-xs-12">
+                <p>Output</p>
+                <textarea id="stdout" rows="8" readonly></textarea>
+              </div>
+            </div>
           </div>
         </div>
       </div>
