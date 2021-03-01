@@ -106,7 +106,7 @@ a:focus {
 }
 
 #sidebar ul.components {
-    padding: 20px 0;
+    padding: 20px 10px;
     border-bottom: 1px solid #47748b;
 }
 
@@ -194,10 +194,10 @@ a.article:hover {
   height: 100%;
   width: 0;
   position: fixed;
-  z-index: 1;
+  z-index: 100;
   top: 0;
   right: 0;
-  background-color: #111;
+  background-color: #d8e4f0;
   overflow-x: hidden;
   transition: 0.5s;
   padding-top: 60px;
@@ -215,14 +215,8 @@ a.article:hover {
     height: 90%;
     overflow: auto;
     position:relative;
-    padding-top: 30px;
-    border-radius: 25px;
-    border: 1px solid white;
     list-style-type: none;
     list-style: none;
-    background-color: #bbdefb;
-    margin-right: 4px;
-    margin-left: 4px;
 }
 
 
@@ -241,7 +235,6 @@ a.article:hover {
     height: auto;
     text-align: left;
     font: 400 .9em 'Open Sans', sans-serif;
-    border: 1px solid #000;
     border-radius: 10px;
 }
 

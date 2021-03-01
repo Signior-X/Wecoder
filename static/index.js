@@ -243,7 +243,9 @@ const get_username = () => {
 };
 
 function openChat() {
-  document.getElementById("chatRoom").style.width = "50%";
+  document.getElementById("chatRoom").style.width = "360px";
+  document.getElementById('msg-text').focus();
+
 }
 
 function closeChat() {
