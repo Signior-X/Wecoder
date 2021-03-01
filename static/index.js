@@ -65,6 +65,16 @@ const init = (username, room_id) => {
     })
 
 
+    socket.on("code run", (data) => {
+      // Run the code and make the changes
+      console.log("data got", data)
+      $('#submit-btn').html('Submit')
+      $('#submit-btn').prop('disabled', false);
+
+      document.getElementById('stdout').innerHTML = data.stdout
+
+    })
+
 
 
   });

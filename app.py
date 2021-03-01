@@ -86,6 +86,7 @@ def new_msg(data):
 
 @socketio.on('submit code')
 def submit_code(data):
+    room = USERS[request.sid][1]
     print("request made", data)
 
     url = "http://sntc.iitmandi.ac.in:3000/submissions/?base64_encoded=false&wait=true"
@@ -106,6 +107,10 @@ def submit_code(data):
                              data=json.dumps(body, indent=4))
     print(response.status_code)
     print(response.content)
+
+    data['stdout'] = response.json()['stdout']
+
+    emit('code run', data, room=room)
 
 
 if __name__ == "__main__":
