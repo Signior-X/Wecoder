@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", () => {
   get_username(); //when the user first logs in, they are prompted to enter their username
 });
 
-
 var socket;
 
 let bootstrap_colours = ["primary", "secondary", "success", "danger", "warning", "info"];
@@ -67,11 +66,12 @@ const init = (username, room_id) => {
 
     socket.on("code run", (data) => {
       // Run the code and make the changes
-      console.log("data got", data)
+      console.log("data of code run", data)
       $('#submit-btn').html('Submit')
       $('#submit-btn').prop('disabled', false);
 
       document.getElementById('stdout').innerHTML = data.stdout
+      document.getElementById('stdin').innerHTML = data.stdin
 
     })
 
@@ -151,14 +151,15 @@ const init = (username, room_id) => {
   // Take the editor value on start and set it in the editor
   currentEditorValue.child("content").once("value", function (contentRef) {
 
+    document.getElementById('editor-spinner').style.display = "none";
+
     // Somebody changed the lang. Hey, we have to update it in our editor too!
     currentEditorValue.child("lang").on("value", function (r) {
       var value = r.val();
       // Set the language
-      var cLang = $selectLang.val();
-      if (cLang !== value) {
-        $selectLang.val(value).change();
-      }
+      console.log("lang value", value);
+      document.getElementById('language').value = value;
+      changeEditorLang(value);
     });
 
     // Initialize the ACE editor
@@ -245,7 +246,7 @@ const init = (username, room_id) => {
 
       // Here's where we set the initial content of the editor
       editorValues.child(editorId).set({
-        lang: "cpp",
+        lang: "10",
         queue: {},
         content: val
       });
@@ -266,24 +267,8 @@ const init = (username, room_id) => {
     editor.focus();
   });
 
-  // Code submit and language change
-  $('#submit-btn').on('click', function () {
 
-    console.log("Response");
-
-    $('#submit-btn').html('<i class="fa fa-spinner fa-spin"></i>');
-    $('#submit-btn').prop('disabled', true);
-    data = {
-      src: editor.getValue(),
-      lang: $('#language').val(),
-      stdin: $('#stdin').val()
-    };
-    socket.emit("submit code", data)
-    $('#submit-btn').prop('disabled', false);
-  });
-
-  $("#language").change(function () {
-    var lang_enum = $(this).val();
+  changeEditorLang = (lang_enum) => {
     if (lang_enum == 10 || lang_enum == 4) {
       editor.session.setMode("ace/mode/c_cpp");
       var dummycpp =
@@ -321,6 +306,28 @@ int main(void){
 }`
       editor.setValue(dummyjava);
     }
+  }
+
+
+  // Code submit and language change
+  $('#submit-btn').on('click', function () {
+
+    console.log("Response");
+
+    $('#submit-btn').html('<i class="fa fa-spinner fa-spin"></i>');
+    $('#submit-btn').prop('disabled', true);
+    data = {
+      src: editor.getValue(),
+      lang: $('#language').val(),
+      stdin: $('#stdin').val()
+    };
+    socket.emit("submit code", data)
+    $('#submit-btn').prop('disabled', false);
+  });
+
+  $("#language").change(function () {
+    var lang_enum = $(this).val();
+    changeEditorLang(lang_enum);
   });
 
 };
