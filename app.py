@@ -1,5 +1,4 @@
 import os
-import judge0api as api
 from dotenv import load_dotenv
 from flask import Flask, render_template, request
 from flask_socketio import SocketIO, emit, join_room, leave_room
