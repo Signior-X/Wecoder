@@ -258,6 +258,9 @@ const init = (username, room_id) => {
 
   // Code submit and language change
   $('#submit-btn').on('click', function () {
+
+    console.log("Response");
+
     $('#submit-btn').html('<i class="fa fa-spinner fa-spin"></i>');
     $('#submit-btn').prop('disabled', true);
     data = {

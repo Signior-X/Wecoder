@@ -2,6 +2,8 @@ import os
 import judge0api as api
 from flask import Flask, render_template, request
 from flask_socketio import SocketIO, emit, join_room, leave_room
+import requests
+import json
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
@@ -84,30 +86,26 @@ def new_msg(data):
 
 @socketio.on('submit code')
 def submit_code(data):
-    # url = "http://sntc.iitmandi.ac.in:3000/submissions/?base64_encoded=false&wait=true"
-    # headers = {
-    #     "cache-control": "no-cache",
-    #     "Content-Type": "application/json"
-    # }
-    # body = {
-    #     "source_code": data['src'],
-    #     "language_id": int(data['lang']),
-    #     "stdin": data['stdin'],
-    #     "cpu_time_limit": 5
-    # }
-    # print(body)
-    # response = requests.post(url, headers=headers, data=body)
-    # print(response.content)
+    print("request made", data)
 
-    # submission = api.submission.submit(
-    #     client, bytes(data['src'], 'utf-8'),
-    #     int(data['lang']), stdin=data['stdin'])
-    # submission.load(client)
-    # print(submission.stdout)
-    submission = api.submission.submit(
-        client, b"print(f'Hello {input()}')", 71, stdin=b'Judge0', expected_output=b"Hello Judge0")
-    submission.load(client)  # Load the status from the server
-    print(submission.stdout)
+    url = "http://sntc.iitmandi.ac.in:3000/submissions/?base64_encoded=false&wait=true"
+    headers = {
+        "cache-control": "no-cache",
+        "Content-Type": "application/json"
+    }
+
+    body = {
+        "source_code": data['src'],
+        "language_id": data['lang'],
+        "stdin": data['stdin'],
+        "cpu_time_limit": "5"
+    }
+
+    print(body)
+    response = requests.post(url, headers=headers,
+                             data=json.dumps(body, indent=4))
+    print(response.status_code)
+    print(response.content)
 
 
 if __name__ == "__main__":
