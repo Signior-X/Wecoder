@@ -6,6 +6,9 @@ Final Product : WeCode App (A platform where you can video call, code and draw t
 
 Hosted at https://wecoder.ml/
 
+# Screenshot
+![Example Image](https://github.com/Signior-X/hack30_2021/blob/main/screenshot.png)
+
 # Features : 
 
 - Video Call Feature : Allows multiple people to connect to rooms and talk to each other. 
