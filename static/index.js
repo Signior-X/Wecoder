@@ -7,7 +7,9 @@ var socket;
 let bootstrap_colours = ["primary", "secondary", "success", "danger", "warning", "info"];
 
 const init = (username, room_id) => {
-
+  document.getElementById('username').value = username;
+  document.getElementById('room').value = room_id;
+  document.getElementById('join_leave').click();
   //after the username is entered, lets start the socket
   socket = io.connect(
     location.protocol + "//" + document.domain + ":" + location.port

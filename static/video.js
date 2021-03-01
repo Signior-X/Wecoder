@@ -21,7 +21,9 @@ function addLocalVideo() {
         let video = document.getElementById('local').firstChild;
         let trackElement = track.attach();
         trackElement.addEventListener('click', () => { zoomTrack(trackElement); });
-        video.appendChild(trackElement);
+        console.log(trackElement);
+        // video.innerHTML += trackElement;
+        // video.appendChild(trackElement);
     });
 };
 
